@@ -1,0 +1,155 @@
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="estilo.css">
+        <title>gerador</title>
+    </head>
+    <body>
+        <div id="centralizar">
+            <p id="titulo">Gerador de senha</p>
+            <div id="senha">
+                <h1 id="texto_senha">Sua senha</h1>
+                <span onclick="copiar()">copiar</span>
+            </div>
+            <div id="menuprincipal">
+                <div id="descricao_letras">
+                    <p id="tamanho">Escolha o tamanho da senha</p>
+                    <p id="quantidade">0</p>
+                </div>
+                <div id="sliderdiv">
+                    <div id="slider">
+                        <input type="range" min="0" max="20" value="0" class="slider" id="meuslider">
+                    </div>
+                </div>
+                <div id="marcacao">
+                    <div id="checks">
+                        <input type="checkbox" id="check" class="check">
+                        <p>Incluir letras maisculas</p>
+                    </div> 
+                    <div id="checks">
+                        <input type="checkbox" id="check" class="check">
+                        <p>Incluir letras minusculas</p>
+                    </div> 
+                    <div id="checks">
+                        <input type="checkbox" id="check" class="check">
+                        <p>incluir numeros</p>
+                    </div> 
+                    <div id="checks">
+                        <input type="checkbox" id="check" class="check">
+                        <p>incluir simbolos</p>
+                    </div> 
+                    
+                </div>
+                <div id="dificuldade">
+                    <div id="dificuldade2">
+                        <p style="margin-left: 20px;">segurança</p>
+                        <div id="cores">
+                            <div class="ponto"></div>
+                            <div class="ponto"></div>
+                            <div class="ponto"></div>
+                            <div class="ponto"></div>
+                        </div>
+                    </div>
+                </div>
+                <div id="dificuldade">
+                    <button onclick="gerar2();dificuldade()">GERAR SENHA</button>
+                </div>
+            </div>
+        </div>
+    </body>
+
+
+    <script>
+        var slider = document.getElementById("meuslider");
+        var valor = document.getElementById("quantidade");
+
+        valor.innerHTML = slider.value;
+         x=0
+        slider.oninput = function(){
+           x = valor.innerHTML = this.value;  
+        }
+        
+        function gerar2(){
+            myNodeList  = document.querySelectorAll(".check")
+            valores = ""
+            if(myNodeList[0].checked == true){
+                valores = valores + "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+            }
+            if(myNodeList[1].checked == true){
+                valores = valores + "abcdefghijklmnopqrstuvwxyz"
+            }
+            if(myNodeList[2].checked == true){
+                valores = valores + "0123456789"
+            }
+            if(myNodeList[3].checked == true){
+                valores = valores + "!@#$%&*+-"
+            }
+            if(x>16){
+                document.getElementById("texto_senha").style.fontSize = "25px"
+            }
+            texto = ""
+            for(let i=0;i<x;i++){
+                teste = Math.floor(Math.random()*valores.length)
+                texto += valores.charAt(teste)
+            }
+            document.getElementById("texto_senha").innerHTML = texto
+
+        }
+
+        function copiar(){
+            var textoParaCopiar = document.getElementById("texto_senha").innerText
+            var input = document.createElement("input");
+            input.value = textoParaCopiar;
+            document.body.appendChild(input)
+            input.select();
+            input.setSelectionRange(0, 99999);
+            document.execCommand("copy")
+            document.body.removeChild(input) 
+        }
+
+        
+        
+        function dificuldade(){
+            minhaNodeList = document.querySelectorAll(".ponto")
+            let contador = 0;
+
+            myNodeList.forEach(function(checkbox) {
+                if (checkbox.checked) {
+                    contador++;
+                }
+                
+            });
+           
+
+            
+
+
+            for(i=0;i<minhaNodeList.length;i++){
+                minhaNodeList[i].style.background = "rgb(66, 66, 66)"
+            }
+
+            if(x<=5 || contador == 1){
+                minhaNodeList[0].style.background = "red"
+            }
+            if(x>5 && x<=10 || contador == 2){
+                minhaNodeList[0].style.background = "red"
+                minhaNodeList[1].style.background = "red"
+            }
+            if(x>10 && x<=15 || contador == 3){
+                minhaNodeList[0].style.background = "yellow"
+                minhaNodeList[1].style.background = "yellow"
+                minhaNodeList[2].style.background = "yellow"
+                
+            }
+            if(x>15 || contador == 4){
+                minhaNodeList[0].style.background = "green"
+                minhaNodeList[1].style.background = "green"
+                minhaNodeList[2].style.background = "green"
+                minhaNodeList[3].style.background = "green"
+            }
+        }
+        
+
+    </script>
+</html>
